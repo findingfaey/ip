@@ -34,4 +34,3 @@ public class Arin {
         scanner.close();  // Close scanner
     }
 }
-
