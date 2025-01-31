@@ -183,7 +183,7 @@ public class Arin {
         System.out.println("____________________________________________________________");
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + tasks[taskCount - 1]);
-        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+        System.out.println(" Now you have " + taskCount + (taskCount == 1 ? " task" : " tasks") + " in the list.");
         System.out.println("____________________________________________________________");
     }
 }
