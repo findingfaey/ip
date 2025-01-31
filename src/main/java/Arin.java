@@ -29,6 +29,11 @@ public class Arin {
                 System.out.println("____________________________________________________________");
                 break;
             }
+
+            // Echo user input
+            System.out.println("____________________________________________________________");
+            System.out.println(" " + input);
+            System.out.println("____________________________________________________________");
         }
 
         scanner.close();  // Close scanner
