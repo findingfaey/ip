@@ -65,8 +65,8 @@ class Event extends Task {
 }
 
 public class Arin {
-    private static Task[] tasks = new Task[100]; // Array of Tasks
-    private static int taskCount = 0; // Keep track of task count
+    private static Task[] tasks = new Task[100]; // Task storage
+    private static int taskCount = 0; // Track task count
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -89,6 +89,8 @@ public class Arin {
                     listTasks();
                 } else if (input.startsWith("mark ")) {
                     markTaskAsDone(input);
+                } else if (input.equals("todo")) {
+                    throw new ArinException("OOPS!!! The description of a todo cannot be empty.");
                 } else if (input.startsWith("todo ")) {
                     addToDo(input);
                 } else if (input.startsWith("deadline ")) {
@@ -96,9 +98,9 @@ public class Arin {
                 } else if (input.startsWith("event ")) {
                     addEvent(input);
                 } else {
-                    throw new Exception("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    throw new ArinException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
-            } catch (Exception e) {
+            } catch (ArinException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println(" " + e.getMessage());
                 System.out.println("____________________________________________________________");
@@ -123,7 +125,7 @@ public class Arin {
     }
 
     // ✅ Mark a task as done
-    private static void markTaskAsDone(String input) throws Exception {
+    private static void markTaskAsDone(String input) throws ArinException {
         try {
             int taskIndex = Integer.parseInt(input.substring(5)) - 1;
             if (taskIndex >= 0 && taskIndex < taskCount) {
@@ -133,48 +135,48 @@ public class Arin {
                 System.out.println("   " + tasks[taskIndex]);
                 System.out.println("____________________________________________________________");
             } else {
-                throw new Exception("Task number out of range!");
+                throw new ArinException("Task number out of range!");
             }
         } catch (NumberFormatException e) {
-            throw new Exception("Please enter a valid task number to mark!");
+            throw new ArinException("Please enter a valid task number to mark!");
         }
     }
 
     // ➕ Add a ToDo task
-    private static void addToDo(String input) throws Exception {
+    private static void addToDo(String input) throws ArinException {
         String taskDescription = input.replaceFirst("todo", "").trim();
         if (taskDescription.isEmpty()) {
-            throw new Exception("The description of a todo cannot be empty.");
+            throw new ArinException("The description of a todo cannot be empty.");
         }
         tasks[taskCount++] = new ToDo(taskDescription);
         printTaskAdded();
     }
 
     // 📌 Add a Deadline task
-    private static void addDeadline(String input) throws Exception {
+    private static void addDeadline(String input) throws ArinException {
         try {
             String[] parts = input.substring(9).split(" /by ");
             if (parts.length < 2) {
-                throw new Exception("Invalid format! Use: deadline <task> /by <due date>");
+                throw new ArinException("Invalid format! Use: deadline <task> /by <due date>");
             }
             tasks[taskCount++] = new Deadline(parts[0], parts[1]);
             printTaskAdded();
         } catch (Exception e) {
-            throw new Exception("Invalid format! Use: deadline <task> /by <due date>");
+            throw new ArinException("Invalid format! Use: deadline <task> /by <due date>");
         }
     }
 
     // 🎉 Add an Event task
-    private static void addEvent(String input) throws Exception {
+    private static void addEvent(String input) throws ArinException {
         try {
             String[] parts = input.substring(6).split(" /from | /to ");
             if (parts.length < 3) {
-                throw new Exception("Invalid format! Use: event <task> /from <start> /to <end>");
+                throw new ArinException("Invalid format! Use: event <task> /from <start> /to <end>");
             }
             tasks[taskCount++] = new Event(parts[0], parts[1], parts[2]);
             printTaskAdded();
         } catch (Exception e) {
-            throw new Exception("Invalid format! Use: event <task> /from <start> /to <end>");
+            throw new ArinException("Invalid format! Use: event <task> /from <start> /to <end>");
         }
     }
 

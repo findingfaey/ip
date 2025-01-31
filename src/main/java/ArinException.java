@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class ArinException {
+// ArinException.java
+public class ArinException extends Exception {
+    public ArinException(String message) {
+        super(message);
+    }
 }
