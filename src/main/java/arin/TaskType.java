@@ -1,3 +1,5 @@
+package arin;
+
 /**
  * Enum to define task types: TODO, DEADLINE, EVENT.
  */

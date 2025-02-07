@@ -1,17 +1,16 @@
+package arin.task;
+
+import arin.TaskType;
+import arin.task.Task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class Event extends Task {
-    protected LocalDateTime from;
-    protected LocalDateTime to;
+public class Event extends Task {
 
-    /**
-     * Constructs an Event task with the given description, start time, and end time.
-     *
-     * @param description The description of the task.
-     * @param from The start time of the event.
-     * @param to The end time of the event.
-     */
+    private LocalDateTime from;
+    private LocalDateTime to;
+
     public Event(String description, String from, String to) {
         super(description, TaskType.EVENT);
         this.from = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
@@ -22,6 +21,12 @@ class Event extends Task {
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")) +
                 " to: " + to.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")) + ")";
+    }
+
+    @Override
+    public String toSaveString() {
+        return "E | " + (isDone() ? "1" : "0") + " | " + description + " | " + from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                + " | " + to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public LocalDateTime getFrom() {
