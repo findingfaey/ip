@@ -3,37 +3,32 @@ ____________________________________________________________
  What can I do for you?
 ____________________________________________________________
 Got it. I've added this task:
-   [T][ ] read a book
+   [T][ ] Read a book
 Now you have 1 task in the list.
 ____________________________________________________________
 Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] Return book (by: Feb 10 2025)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
-   [E][ ] team meeting (from: 2pm to: 4pm)
+   [E][ ] Team meeting (from: Feb 07 2025 14:00 to: Feb 07 2025 16:00)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 Here are the tasks in your list:
-1. [T][ ] read a book
-2. [D][ ] return book (by: Sunday)
-3. [E][ ] team meeting (from: 2pm to: 4pm)
+1. [T][ ] Read a book
+2. [D][ ] Return book (by: Feb 10 2025)
+3. [E][ ] Team meeting (from: Feb 07 2025 14:00 to: Feb 07 2025 16:00)
 ____________________________________________________________
 Nice! I've marked this task as done:
-   [T][X] read a book
-____________________________________________________________
-Here are the tasks in your list:
-1. [T][X] read a book
-2. [D][ ] return book (by: Sunday)
-3. [E][ ] team meeting (from: 2pm to: 4pm)
+   [T][X] Read a book
 ____________________________________________________________
 Noted. I've removed this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] Return book (by: Feb 10 2025)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 Here are the tasks in your list:
-1. [T][X] read a book
-2. [E][ ] team meeting (from: 2pm to: 4pm)
+1. [T][X] Read a book
+2. [E][ ] Team meeting (from: Feb 07 2025 14:00 to: Feb 07 2025 16:00)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________

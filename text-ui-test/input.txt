@@ -1,0 +1,8 @@
+todo Read a book
+deadline Return book /by 2025-02-10
+event Team meeting /from 2025-02-07 1400 /to 2025-02-07 1600
+list
+mark 1
+delete 2
+list
+bye
