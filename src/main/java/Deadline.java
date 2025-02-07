@@ -1,8 +1,11 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents a Deadline task, a subclass of Task.
  */
 class Deadline extends Task {
-    protected String by;
+    protected LocalDate by;
 
     /**
      * Constructs a Deadline task with the given description and due date.
@@ -11,17 +14,17 @@ class Deadline extends Task {
      * @param by The due date of the task.
      */
     public Deadline(String description, String by) {
-        super(description, TaskType.DEADLINE);  // Set the task type
-        this.by = by;
+        super(description, TaskType.DEADLINE);
+        this.by = LocalDate.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd"));  // Parse the date
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
     }
 
     // Getter method
-    public String getBy() {
+    public LocalDate getBy() {
         return by;
     }
 }

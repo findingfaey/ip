@@ -1,9 +1,0 @@
-todo read a book
-deadline return book /by Sunday
-event team meeting /from 2pm /to 4pm
-list
-mark 1
-list
-delete 2
-list
-bye
