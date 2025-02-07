@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The main class of the Arin chatbot program.
@@ -110,6 +111,20 @@ public class Arin {
         }
     }
 
+    // Helper method to add tasks and prevent duplicates
+    private static void addTask(Task newTask) throws ArinException {
+        for (Task task : tasks) {
+            // Check if a task with the same description already exists in the list
+            if (task.getDescription().equals(newTask.getDescription()) &&
+                    task.getTaskType() == newTask.getTaskType()) {
+                throw new ArinException("This task already exists in the list.");
+            }
+        }
+        tasks.add(newTask);
+        printTaskAdded();
+        saveTasks();  // Save tasks after adding the new task
+    }
+
     /**
      * Adds a ToDo task.
      *
@@ -121,9 +136,7 @@ public class Arin {
         if (taskDescription.isEmpty()) {
             throw new ArinException("The description of a todo cannot be empty.");
         }
-        tasks.add(new ToDo(taskDescription));
-        printTaskAdded();
-        saveTasks();  // Save tasks after adding a new ToDo
+        addTask(new ToDo(taskDescription));  // Add using the helper method
     }
 
     /**
@@ -134,13 +147,17 @@ public class Arin {
      */
     private static void addDeadline(String input) throws ArinException {
         try {
+            // Split by /by and ensure there are two parts
             String[] parts = input.substring(9).split(" /by ");
             if (parts.length < 2) {
                 throw new ArinException("Invalid format! Use: deadline <task> /by <due date>");
             }
-            tasks.add(new Deadline(parts[0], parts[1]));
-            printTaskAdded();
-            saveTasks();  // Save tasks after adding a new Deadline
+
+            String description = parts[0].trim();
+            String dueDate = parts[1].trim();  // Extract the date part
+
+            // Create a new Deadline task using the proper date format
+            addTask(new Deadline(description, dueDate));  // Add using the helper method
         } catch (Exception e) {
             throw new ArinException("Invalid format! Use: deadline <task> /by <due date>");
         }
@@ -158,9 +175,12 @@ public class Arin {
             if (parts.length < 3) {
                 throw new ArinException("Invalid format! Use: event <task> /from <start> /to <end>");
             }
-            tasks.add(new Event(parts[0], parts[1], parts[2]));
-            printTaskAdded();
-            saveTasks();  // Save tasks after adding a new Event
+
+            String description = parts[0];
+            String fromDate = parts[1];
+            String toDate = parts[2];  // Extract both dates
+
+            addTask(new Event(description, fromDate, toDate));  // Add using the helper method
         } catch (Exception e) {
             throw new ArinException("Invalid format! Use: event <task> /from <start> /to <end>");
         }
@@ -209,7 +229,7 @@ public class Arin {
         try {
             File file = new File(FILE_PATH);
             if (!file.exists()) {
-                return; // If the file does not exist, no tasks are loaded
+                return;  // If the file doesn't exist, no tasks are loaded
             }
 
             Scanner fileScanner = new Scanner(file);
@@ -225,7 +245,7 @@ public class Arin {
                     case "T":
                         task = new ToDo(taskDescription);
                         if (isDone) {
-                            task.setDone(true); // Use setter method
+                            task.setDone(true);
                         }
                         break;
                     case "D":
@@ -266,11 +286,13 @@ public class Arin {
                 String taskStatus = task.isDone() ? "1" : "0";
                 String taskDescription = task.getDescription();
                 String taskDetails = taskType + " | " + taskStatus + " | " + taskDescription;
+
                 if (task instanceof Deadline) {
-                    taskDetails += " | " + ((Deadline) task).getBy();
+                    taskDetails += " | " + ((Deadline) task).getBy().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 } else if (task instanceof Event) {
                     Event event = (Event) task;
-                    taskDetails += " | " + event.getFrom() + " | " + event.getTo();
+                    taskDetails += " | " + event.getFrom().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                            + " | " + event.getTo().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 }
                 writer.println(taskDetails);
             }
