@@ -1,7 +1,5 @@
 package arin.task;
 
-import arin.TaskType;
-
 public abstract class Task {
 
     protected String description;

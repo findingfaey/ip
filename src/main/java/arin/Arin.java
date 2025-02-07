@@ -1,5 +1,11 @@
 package arin;
 
+import arin.command.Command;
+import arin.storage.Storage;
+import arin.task.TaskList;
+import arin.ui.Parser;
+import arin.ui.Ui;
+
 public class Arin {
     private static final String FILE_PATH = "./data/arin.txt";
     private Ui ui;

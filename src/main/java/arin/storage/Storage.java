@@ -1,4 +1,4 @@
-package arin;
+package arin.storage;
 
 import arin.task.Task;
 

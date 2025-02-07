@@ -1,5 +1,7 @@
-package arin;
+package arin.ui;
 
+import arin.*;
+import arin.command.*;
 import arin.task.Deadline;
 import arin.task.Event;
 import arin.task.ToDo;
