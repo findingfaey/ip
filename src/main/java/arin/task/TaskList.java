@@ -1,6 +1,7 @@
-package arin;
+package arin.task;
 
 import arin.task.Task;
+import arin.ui.Ui;
 
 import java.util.ArrayList;
 

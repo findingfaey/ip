@@ -1,4 +1,4 @@
-package arin;
+package arin.ui;
 
 import arin.task.Task;
 

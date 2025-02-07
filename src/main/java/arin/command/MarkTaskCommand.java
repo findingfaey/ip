@@ -1,4 +1,9 @@
-package arin;
+package arin.command;
+
+import arin.ArinException;
+import arin.storage.Storage;
+import arin.task.TaskList;
+import arin.ui.Ui;
 
 /**
  * Command to mark a task as done.
