@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ import java.util.Scanner;
 public class Arin {
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static final String BORDER = "____________________________________________________________";
+    private static final String FILE_PATH = "./data/arin.txt"; // Define the file to save and load tasks
 
     // Utility method to print formatted output
     private static void printOutput(String... messages) {
@@ -23,6 +25,9 @@ public class Arin {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        // Load tasks from file
+        loadTasks();
 
         System.out.println(BORDER);
         System.out.println(" Hello! I'm Arin.");
@@ -60,6 +65,9 @@ public class Arin {
             }
         }
 
+        // Save tasks to file before closing
+        saveTasks();
+
         scanner.close();
     }
 
@@ -93,6 +101,7 @@ public class Arin {
                         "Nice! I've marked this task as done:",
                         "   " + tasks.get(taskIndex)
                 );
+                saveTasks();  // Save tasks after marking as done
             } else {
                 throw new ArinException("Task number out of range!");
             }
@@ -114,6 +123,7 @@ public class Arin {
         }
         tasks.add(new ToDo(taskDescription));
         printTaskAdded();
+        saveTasks();  // Save tasks after adding a new ToDo
     }
 
     /**
@@ -130,6 +140,7 @@ public class Arin {
             }
             tasks.add(new Deadline(parts[0], parts[1]));
             printTaskAdded();
+            saveTasks();  // Save tasks after adding a new Deadline
         } catch (Exception e) {
             throw new ArinException("Invalid format! Use: deadline <task> /by <due date>");
         }
@@ -149,6 +160,7 @@ public class Arin {
             }
             tasks.add(new Event(parts[0], parts[1], parts[2]));
             printTaskAdded();
+            saveTasks();  // Save tasks after adding a new Event
         } catch (Exception e) {
             throw new ArinException("Invalid format! Use: event <task> /from <start> /to <end>");
         }
@@ -181,11 +193,90 @@ public class Arin {
                         "   " + removedTask,
                         "Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in the list."
                 );
+                saveTasks();  // Save tasks after deleting a task
             } else {
                 throw new ArinException("Task number out of range! Please enter a valid task number.");
             }
         } catch (NumberFormatException e) {
             throw new ArinException("Invalid input! Please enter a valid task number to delete.");
+        }
+    }
+
+    /**
+     * Loads the tasks from the file.
+     */
+    private static void loadTasks() {
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                return; // If the file does not exist, no tasks are loaded
+            }
+
+            Scanner fileScanner = new Scanner(file);
+            while (fileScanner.hasNextLine()) {
+                String taskData = fileScanner.nextLine();
+                String[] taskParts = taskData.split(" \\| ");
+                String taskType = taskParts[0];
+                boolean isDone = taskParts[1].equals("1");
+                String taskDescription = taskParts[2];
+                Task task;
+
+                switch (taskType) {
+                    case "T":
+                        task = new ToDo(taskDescription);
+                        if (isDone) {
+                            task.setDone(true); // Use setter method
+                        }
+                        break;
+                    case "D":
+                        task = new Deadline(taskDescription, taskParts[3]);
+                        if (isDone) {
+                            task.setDone(true);
+                        }
+                        break;
+                    case "E":
+                        task = new Event(taskDescription, taskParts[3], taskParts[4]);
+                        if (isDone) {
+                            task.setDone(true);
+                        }
+                        break;
+                    default:
+                        continue;
+                }
+                tasks.add(task);
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Data file not found. Starting with an empty task list.");
+        }
+    }
+
+    /**
+     * Saves the tasks to the file.
+     */
+    private static void saveTasks() {
+        try {
+            File file = new File(FILE_PATH);
+            file.getParentFile().mkdirs();  // Create parent directories if they do not exist
+            file.createNewFile();  // Create the file if it doesn't exist
+            PrintWriter writer = new PrintWriter(file);
+
+            for (Task task : tasks) {
+                String taskType = task.getTaskType().toString().substring(0, 1);  // Get the task type (T, D, E)
+                String taskStatus = task.isDone() ? "1" : "0";
+                String taskDescription = task.getDescription();
+                String taskDetails = taskType + " | " + taskStatus + " | " + taskDescription;
+                if (task instanceof Deadline) {
+                    taskDetails += " | " + ((Deadline) task).getBy();
+                } else if (task instanceof Event) {
+                    Event event = (Event) task;
+                    taskDetails += " | " + event.getFrom() + " | " + event.getTo();
+                }
+                writer.println(taskDetails);
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks to file.");
         }
     }
 }

@@ -19,4 +19,9 @@ class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
+
+    // Getter method
+    public String getBy() {
+        return by;
+    }
 }

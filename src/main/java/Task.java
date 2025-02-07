@@ -38,7 +38,20 @@ abstract class Task {
         return getStatusIcon() + " " + description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
     public TaskType getTaskType() {
         return taskType;
+    }
+
+    // Setter method for marking a task as done
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
     }
 }

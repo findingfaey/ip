@@ -1,0 +1,2 @@
+T | 1 | read a book
+E | 0 | team meeting | 2pm | 4pm
