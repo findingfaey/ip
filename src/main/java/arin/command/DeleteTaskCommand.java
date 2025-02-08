@@ -6,7 +6,7 @@ import arin.task.TaskList;
 import arin.ui.Ui;
 
 /**
- * Command to delete a task.
+ * Represents a command to delete a task from the task list.
  */
 public class DeleteTaskCommand implements Command {
 
@@ -21,6 +21,15 @@ public class DeleteTaskCommand implements Command {
         this.taskIndex = taskIndex;
     }
 
+    /**
+     * Executes the command to delete the task from the task list,
+     * display the deletion, and save the updated task list.
+     *
+     * @param taskList The task list to remove the task from.
+     * @param ui       The UI to display messages to the user.
+     * @param storage  The storage to save the updated task list.
+     * @throws ArinException If there is an error deleting the task.
+     */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
         taskList.deleteTask(taskIndex);
@@ -28,6 +37,11 @@ public class DeleteTaskCommand implements Command {
         storage.saveTasks(taskList.getTasks());
     }
 
+    /**
+     * Indicates whether this command should cause the application to exit.
+     *
+     * @return false as this command does not exit the application.
+     */
     @Override
     public boolean isExit() {
         return false;

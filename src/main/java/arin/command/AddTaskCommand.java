@@ -7,7 +7,7 @@ import arin.task.TaskList;
 import arin.ui.Ui;
 
 /**
- * Command to add a task (ToDo, Deadline, Event).
+ * Represents a command to add a task (ToDo, Deadline, Event) to the task list.
  */
 public class AddTaskCommand implements Command {
 
@@ -22,6 +22,15 @@ public class AddTaskCommand implements Command {
         this.task = task;
     }
 
+    /**
+     * Executes the command to add the task to the task list,
+     * display the addition, and save the updated task list.
+     *
+     * @param taskList The task list to add the task to.
+     * @param ui       The UI to display messages to the user.
+     * @param storage  The storage to save the updated task list.
+     * @throws ArinException If there is an error saving the task.
+     */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
         taskList.addTask(task);
@@ -29,6 +38,11 @@ public class AddTaskCommand implements Command {
         storage.saveTasks(taskList.getTasks());
     }
 
+    /**
+     * Indicates whether this command should cause the application to exit.
+     *
+     * @return false as this command does not exit the application.
+     */
     @Override
     public boolean isExit() {
         return false;
