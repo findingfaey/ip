@@ -36,6 +36,10 @@ public class Arin {
         }
     }
 
+    public Ui getUi() {
+        return ui;
+    }
+
     public static void main(String[] args) {
         new Arin("data/arin.txt").run();
     }
