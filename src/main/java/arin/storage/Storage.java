@@ -1,7 +1,10 @@
 package arin.storage;
 
 import arin.task.Task;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +13,7 @@ import java.util.Scanner;
  */
 public class Storage {
 
-    private String filePath;
+    private final String filePath;
 
     /**
      * Creates a Storage object with the specified file path.
@@ -28,16 +31,18 @@ public class Storage {
      */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) return tasks;
-            Scanner scanner = new Scanner(file);
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return tasks;
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String taskData = scanner.nextLine();
                 Task task = Task.parseTask(taskData);
                 tasks.add(task);
             }
-            scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found, starting with an empty list.");
         }

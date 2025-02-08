@@ -5,9 +5,9 @@ package arin.task;
  */
 public abstract class Task {
 
-    protected String description;
+    protected final String description;
     protected boolean isDone;
-    protected TaskType taskType;
+    protected final TaskType taskType;
 
     /**
      * Creates a task with the given description and type.
@@ -21,62 +21,17 @@ public abstract class Task {
         this.taskType = taskType;
     }
 
-    /**
-     * Marks the task as done.
-     */
     public void markAsDone() {
         this.isDone = true;
     }
 
-    /**
-     * Checks if the task is completed.
-     *
-     * @return True if the task is completed, false otherwise.
-     */
     public boolean isDone() {
         return isDone;
     }
 
-    /**
-     * Returns a formatted string representation of the task.
-     *
-     * @return The formatted string representation.
-     */
     public String toString() {
         return (isDone ? "[X]" : "[ ]") + " " + description;
     }
 
-    /**
-     * Converts the task into a string format for saving.
-     *
-     * @return The formatted string for saving the task.
-     */
     public abstract String toSaveString();
-
-    /**
-     * Parses a saved task string and returns the corresponding Task object.
-     *
-     * @param taskData The saved task string.
-     * @return The corresponding Task object.
-     */
-    public static Task parseTask(String taskData) {
-        String[] parts = taskData.split(" \\| ");
-        String type = parts[0];
-        Task task = null;
-        switch (type) {
-        case "T":
-            task = new ToDo(parts[2]);
-            break;
-        case "D":
-            task = new Deadline(parts[2], parts[3]);
-            break;
-        case "E":
-            task = new Event(parts[2], parts[3], parts[4]);
-            break;
-        }
-        if (parts[1].equals("1")) {
-            task.markAsDone();
-        }
-        return task;
-    }
 }

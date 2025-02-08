@@ -10,7 +10,7 @@ import arin.ui.Ui;
  */
 public class DeleteTaskCommand implements Command {
 
-    private int taskIndex;
+    private final int taskIndex;
 
     /**
      * Creates a command to delete the task at the specified index.

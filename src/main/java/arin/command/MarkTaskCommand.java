@@ -10,7 +10,7 @@ import arin.ui.Ui;
  */
 public class MarkTaskCommand implements Command {
 
-    private int taskIndex;
+    private final int taskIndex;
 
     /**
      * Creates a command to mark the task at the specified index as done.

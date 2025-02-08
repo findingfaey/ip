@@ -11,10 +11,11 @@ import arin.ui.Ui;
  * It manages user interactions, executes commands, and maintains task data.
  */
 public class Arin {
+
     private static final String FILE_PATH = "./data/arin.txt";
-    private Ui ui;
-    private Storage storage;
-    private TaskList taskList;
+    private final Ui ui;
+    private final Storage storage;
+    private final TaskList taskList;
 
     /**
      * Initializes the chatbot with the specified storage file path.
@@ -22,9 +23,9 @@ public class Arin {
      * @param filePath The file path for storing task data.
      */
     public Arin(String filePath) {
-        ui = new Ui();
-        storage = new Storage(filePath);
-        taskList = new TaskList(storage.loadTasks());
+        this.ui = new Ui();
+        this.storage = new Storage(filePath);
+        this.taskList = new TaskList(storage.loadTasks());
     }
 
     /**
@@ -48,21 +49,11 @@ public class Arin {
         }
     }
 
-    /**
-     * Gets the Ui instance of the chatbot.
-     *
-     * @return The Ui instance.
-     */
     public Ui getUi() {
         return ui;
     }
 
-    /**
-     * The main entry point of the chatbot application.
-     *
-     * @param args Command-line arguments (not used).
-     */
     public static void main(String[] args) {
-        new Arin("data/arin.txt").run();
+        new Arin(FILE_PATH).run();
     }
 }
