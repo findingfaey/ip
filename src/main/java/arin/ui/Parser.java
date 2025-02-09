@@ -35,6 +35,8 @@ public class Parser {
             return new DeleteTaskCommand(Integer.parseInt(commandParts[1]));
         case "list":
             return new ListTasksCommand();
+        case "find":
+            return new FindCommand(commandParts[1]);
         case "bye":
             return new ExitCommand();
         default:
@@ -50,6 +52,9 @@ public class Parser {
      * @throws ArinException If the command format is incorrect.
      */
     private static Command parseDeadlineCommand(String[] commandParts) throws ArinException {
+        if (commandParts.length < 2) {
+            throw new ArinException("Invalid deadline format! Use: deadline <task> /by <due date>");
+        }
         String[] deadlineParts = commandParts[1].split(" /by ");
         if (deadlineParts.length < 2) {
             throw new ArinException("Invalid deadline format! Use: deadline <task> /by <due date>");
@@ -65,10 +70,14 @@ public class Parser {
      * @throws ArinException If the command format is incorrect.
      */
     private static Command parseEventCommand(String[] commandParts) throws ArinException {
-        String[] eventParts = commandParts[1].split(" /from | /to "); // Split by '/from' and '/to'
+        if (commandParts.length < 2) {
+            throw new ArinException("Invalid event format! Use: event <task> /from <start time> /to <end time>");
+        }
+        String[] eventParts = commandParts[1].split(" /from | /to ");
         if (eventParts.length < 3) {
             throw new ArinException("Invalid event format! Use: event <task> /from <start time> /to <end time>");
         }
         return new AddTaskCommand(new Event(eventParts[0], eventParts[1], eventParts[2]));
     }
+
 }
