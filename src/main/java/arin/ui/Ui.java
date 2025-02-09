@@ -1,6 +1,8 @@
 package arin.ui;
 
 import arin.task.Task;
+
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -90,5 +92,23 @@ public class Ui {
      */
     public void showTask(Task task) {
         System.out.println(task);
+    }
+
+    /**
+     * Displays matching tasks found from a search query.
+     *
+     * @param matchingTasks The list of tasks matching the search query.
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No matching tasks found.");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            int index = 1;
+            for (Task task : matchingTasks) {
+                System.out.println(index + ". " + task);
+                index++;
+            }
+        }
     }
 }

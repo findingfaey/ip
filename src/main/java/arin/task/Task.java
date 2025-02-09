@@ -1,5 +1,7 @@
 package arin.task;
 
+import java.util.Collection;
+
 /**
  * Represents an abstract task with a description and completion status.
  */
@@ -78,5 +80,14 @@ public abstract class Task {
             task.markAsDone();
         }
         return task;
+    }
+
+    /**
+     * Returns the task's description.
+     *
+     * @return The task description as a string.
+     */
+    public String getDescription() {
+        return description;
     }
 }
