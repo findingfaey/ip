@@ -1,0 +1,24 @@
+.label {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-background-radius: 18px;
+    -fx-padding: 12px 16px;
+    -fx-wrap-text: true;
+    -fx-max-width: 280px;
+}
+
+.reply-label {
+    -fx-background-color: #00cf91;
+}
+
+.error-message {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+}
+
+.circular-image {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-background-color: transparent;
+}
+

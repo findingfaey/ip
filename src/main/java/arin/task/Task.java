@@ -63,25 +63,45 @@ public abstract class Task {
      */
     public static Task parseTask(String taskData) {
         String[] parts = taskData.split(" \\| ");
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("Invalid task format in save file!");
+        }
+
         String type = parts[0];
         Task task = null;
-        switch (type) {
-        case "T":
-            task = new ToDo(parts[2]);
-            break;
-        case "D":
-            task = new Deadline(parts[2], parts[3]);
-            break;
-        case "E":
-            task = new Event(parts[2], parts[3], parts[4]);
-            break;
-        }
-        if (parts[1].equals("1")) {
-            task.markAsDone();
-        }
-        return task;
-    }
 
+        try {
+            switch (type) {
+            case "T":
+                task = new ToDo(parts[2]);
+                break;
+            case "D":
+                if (parts.length < 4) {
+                    throw new IllegalArgumentException("Deadline task is missing the due date!");
+                }
+                task = new Deadline(parts[2], parts[3]);
+                break;
+            case "E":
+                if (parts.length < 5) {
+                    throw new IllegalArgumentException("Event task is missing start or end time!");
+                }
+                task = new Event(parts[2], parts[3], parts[4]);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown task type: " + type);
+            }
+
+            if (parts[1].equals("1")) {
+                task.markAsDone();
+            }
+
+            return task;
+        } catch (Exception e) {
+            System.err.println("Error parsing task: " + taskData);
+            System.err.println("Error details: " + e.getMessage());
+            throw new IllegalArgumentException("Failed to parse task: " + e.getMessage());
+        }
+    }
     /**
      * Returns the task's description.
      *
@@ -89,5 +109,12 @@ public abstract class Task {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Marks the task as not done.
+     */
+    public void markAsNotDone() {
+        this.isDone = false;
     }
 }

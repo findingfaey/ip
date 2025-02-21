@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: #1a1a1a;
+}
+
+.text-field {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-font: 14px "System";
+    -fx-prompt-text-fill: #888888;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 15px;
+    -fx-border-width: 0;
+}
+
+.button {
+    -fx-background-color: #00cf91;
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-padding: 8px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+/* Top bar style */
+.top-bar {
+    -fx-background-color: #242424;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+.app-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}

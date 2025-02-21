@@ -75,9 +75,8 @@ public class TaskList {
         if (tasks.isEmpty()) {
             ui.showError("No tasks to display!");
         } else {
-            for (Task task : tasks) {
-                ui.showTask(task);
-            }
+            // Pass the entire list to UI to format as one response
+            ui.showTaskList(tasks);
         }
     }
 
@@ -95,5 +94,14 @@ public class TaskList {
             }
         }
         return matchingTasks;
+    }
+
+    /**
+     * Marks a task as not done.
+     *
+     * @param index The index of the task to mark as not done.
+     */
+    public void markTaskAsNotDone(int index) {
+        tasks.get(index).markAsNotDone();
     }
 }

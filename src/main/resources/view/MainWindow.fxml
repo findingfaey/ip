@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="400.0" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="arin.ui.MainWindow">
+    <children>
+        <!-- Top Bar -->
+        <HBox styleClass="top-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="appIcon">
+                <image>
+                    <Image url="@/images/app-icon.png"/>
+                </image>
+            </ImageView>
+        </HBox>
+
+        <!-- Chat Area -->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+            <content>
+                <VBox fx:id="dialogContainer" spacing="16.0" style="-fx-padding: 16px;" />
+            </content>
+        </ScrollPane>
+
+        <!-- Input Area -->
+        <HBox alignment="CENTER" spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
+            <TextField fx:id="userInput" onAction="#handleUserInput" HBox.hgrow="ALWAYS" promptText="Type here..." />
+            <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleUserInput" />
+        </HBox>
+    </children>
+</AnchorPane>

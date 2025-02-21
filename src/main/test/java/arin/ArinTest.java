@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import arin.command.Command;
 import arin.command.AddTaskCommand;
 import arin.command.ExitCommand;
+import arin.ui.Arin;
 import arin.ui.Parser;
 
 import java.io.ByteArrayOutputStream;

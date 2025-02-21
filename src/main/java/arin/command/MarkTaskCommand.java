@@ -30,10 +30,20 @@ public class MarkTaskCommand implements Command {
      * @param storage  The storage to save the updated task list.
      * @throws ArinException If there is an error marking the task as done.
      */
+    // In MarkTaskCommand.java
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
-        taskList.markTaskAsDone(taskIndex);
-        ui.showTaskMarkedAsDone(taskList.getTask(taskIndex));
+        // Convert from 1-based user index to 0-based internal index
+        int internalIndex = taskIndex - 1;
+
+        // Check if the index is valid
+        if (internalIndex < 0 || internalIndex >= taskList.getTasks().size()) {
+            throw new ArinException("Invalid task index. Please provide a number between 1 and "
+                    + taskList.getTasks().size() + ".");
+        }
+
+        taskList.markTaskAsDone(internalIndex);
+        ui.showTaskMarkedAsDone(taskList.getTask(internalIndex));
         storage.saveTasks(taskList.getTasks());
     }
 

@@ -40,12 +40,19 @@ public class Storage {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String taskData = scanner.nextLine();
-                Task task = Task.parseTask(taskData);
-                tasks.add(task);
+                try {
+                    Task task = Task.parseTask(taskData);
+                    tasks.add(task);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Skipping invalid task: " + taskData);
+                    System.err.println("Reason: " + e.getMessage());
+                    // Continue processing other tasks
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found, starting with an empty list.");
         }
+
         return tasks;
     }
 

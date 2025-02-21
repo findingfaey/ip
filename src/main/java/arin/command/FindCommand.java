@@ -19,7 +19,7 @@ public class FindCommand implements Command {
      *
      * @param keyword The keyword to search in task descriptions.
      */
-    public FindCommand(String keyword) {
+    public FindCommand(final String keyword) {
         this.keyword = keyword;
     }
 
@@ -32,9 +32,13 @@ public class FindCommand implements Command {
      * @throws ArinException If an error occurs during execution.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
+    public void execute(final TaskList taskList, final Ui ui, final Storage storage) throws ArinException {
         List<Task> matchingTasks = taskList.findTasks(keyword);
-        ui.showMatchingTasks(matchingTasks);
+        if (matchingTasks.isEmpty()) {
+            ui.showError("No matching tasks found.");
+        } else {
+            ui.showMatchingTasks(matchingTasks);
+        }
     }
 
     /**

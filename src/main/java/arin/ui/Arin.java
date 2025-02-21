@@ -1,10 +1,9 @@
-package arin;
+package arin.ui;
 
+import arin.ArinException;
 import arin.command.Command;
 import arin.storage.Storage;
 import arin.task.TaskList;
-import arin.ui.Parser;
-import arin.ui.Ui;
 
 /**
  * Represents the main chatbot application, Arin.
@@ -23,13 +22,30 @@ public class Arin {
      * @param filePath The file path for storing task data.
      */
     public Arin(String filePath) {
-        this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.taskList = new TaskList(storage.loadTasks());
+        this.ui = new Ui(taskList, storage);
     }
 
     /**
-     * Runs the chatbot, handling user commands in a loop until exit is requested.
+     * Sets the UI mode to GUI.
+     */
+    public void setGuiMode() {
+        ui.setGuiMode();
+    }
+
+    /**
+     * Gets a response for the given user input.
+     *
+     * @param input The user input string.
+     * @return The chatbot's response.
+     */
+    public String getResponse(String input) {
+        return ui.processInput(input);
+    }
+
+    /**
+     * Runs the chatbot in CLI mode, handling user commands until exit is requested.
      */
     public void run() {
         ui.showWelcome();
@@ -49,10 +65,30 @@ public class Arin {
         }
     }
 
+    /**
+     * Gets the UI instance.
+     *
+     * @return The UI instance.
+     */
     public Ui getUi() {
         return ui;
     }
 
+    /**
+     * Gets the welcome message.
+     *
+     * @return The welcome message.
+     */
+    public String getWelcomeMessage() {
+        ui.showWelcome();
+        return ui.getLatestResponse();
+    }
+
+    /**
+     * Main method to run the application in CLI mode.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         new Arin(FILE_PATH).run();
     }

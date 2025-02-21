@@ -6,29 +6,29 @@ import arin.task.TaskList;
 import arin.ui.Ui;
 
 /**
- * Represents a command to delete a task from the task list.
+ * Represents a command to unmark a task (mark as not done).
  */
-public class DeleteTaskCommand implements Command {
+public class UnmarkTaskCommand implements Command {
 
     private final int taskIndex;
 
     /**
-     * Creates a command to delete the task at the specified index.
+     * Creates a command to unmark the task at the specified index.
      *
-     * @param taskIndex The index of the task to delete.
+     * @param taskIndex The index of the task to unmark.
      */
-    public DeleteTaskCommand(final int taskIndex) {
+    public UnmarkTaskCommand(int taskIndex) {
         this.taskIndex = taskIndex;
     }
 
     /**
-     * Executes the command to delete the task from the task list,
-     * display the deletion, and save the updated task list.
+     * Executes the command to unmark the specified task,
+     * display the change, and save the updated task list.
      *
-     * @param taskList The task list to remove the task from.
+     * @param taskList The task list containing the task.
      * @param ui       The UI to display messages to the user.
      * @param storage  The storage to save the updated task list.
-     * @throws ArinException If there is an error deleting the task.
+     * @throws ArinException If there is an error unmarking the task.
      */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
@@ -40,8 +40,8 @@ public class DeleteTaskCommand implements Command {
                     + taskList.getTasks().size() + ".");
         }
 
-        taskList.deleteTask(internalIndex);
-        ui.showTaskDeleted();
+        taskList.markTaskAsNotDone(internalIndex);
+        ui.showTaskMarkedAsNotDone(taskList.getTask(internalIndex));
         storage.saveTasks(taskList.getTasks());
     }
 

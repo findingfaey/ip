@@ -19,7 +19,7 @@ public class ExitCommand implements Command {
      * @throws ArinException Never thrown in this command.
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
+    public void execute(final TaskList taskList, final Ui ui, final Storage storage) throws ArinException {
         ui.showExit();
     }
 

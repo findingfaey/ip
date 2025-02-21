@@ -31,6 +31,8 @@ public class Parser {
             return parseEventCommand(commandParts);
         case "mark":
             return new MarkTaskCommand(Integer.parseInt(commandParts[1]));
+        case "unmark":
+            return new UnmarkTaskCommand(Integer.parseInt(commandParts[1]));
         case "delete":
             return new DeleteTaskCommand(Integer.parseInt(commandParts[1]));
         case "list":
@@ -53,13 +55,20 @@ public class Parser {
      */
     private static Command parseDeadlineCommand(String[] commandParts) throws ArinException {
         if (commandParts.length < 2) {
-            throw new ArinException("Invalid deadline format! Use: deadline <task> /by <due date>");
+            throw new ArinException("Invalid deadline format! Use: deadline <task> /by yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
-        String[] deadlineParts = commandParts[1].split(" /by ");
-        if (deadlineParts.length < 2) {
-            throw new ArinException("Invalid deadline format! Use: deadline <task> /by <due date>");
+
+        String[] deadlineParts = commandParts[1].split(" /by ", 2);
+        if (deadlineParts.length < 2 || deadlineParts[1].trim().split(" ").length < 2) {
+            throw new ArinException("Invalid deadline format! Ensure you provide both date and time. Use: deadline <task> /by yyyy-MM-dd HHmm");
         }
-        return new AddTaskCommand(new Deadline(deadlineParts[0], deadlineParts[1]));
+
+        try {
+            return new AddTaskCommand(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ArinException("Failed to add deadline: " + e.getMessage());
+        }
     }
 
     /**
@@ -70,14 +79,24 @@ public class Parser {
      * @throws ArinException If the command format is incorrect.
      */
     private static Command parseEventCommand(String[] commandParts) throws ArinException {
-        if (commandParts.length < 2) {
-            throw new ArinException("Invalid event format! Use: event <task> /from <start time> /to <end time>");
+        if (commandParts.length < 2 || !commandParts[1].contains("/from ") || !commandParts[1].contains("/to ")) {
+            throw new ArinException("Invalid event format! Use: event <task> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm (e.g., '2025-03-05 1400 /to 2025-03-05 1600')");
         }
-        String[] eventParts = commandParts[1].split(" /from | /to ");
-        if (eventParts.length < 3) {
-            throw new ArinException("Invalid event format! Use: event <task> /from <start time> /to <end time>");
-        }
-        return new AddTaskCommand(new Event(eventParts[0], eventParts[1], eventParts[2]));
-    }
 
+        String input = commandParts[1];
+
+        // Extract descriptions and times
+        int fromIndex = input.indexOf("/from ");
+        int toIndex = input.indexOf("/to ");
+
+        if (fromIndex == -1 || toIndex == -1 || fromIndex >= toIndex) {
+            throw new ArinException("Invalid event format! Make sure /from comes before /to.");
+        }
+
+        String description = input.substring(0, fromIndex).trim();
+        String from = input.substring(fromIndex + 6, toIndex).trim();
+        String to = input.substring(toIndex + 4).trim();
+
+        return new AddTaskCommand(new Event(description, from, to));
+    }
 }
