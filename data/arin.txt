@@ -1,3 +1,4 @@
-T | 0 | Read a book
-T | 1 | Finish project
-E | 0 | Project meeting | 2025-03-05 1400 | 2025-03-05 1600
+D | 0 | buy flowers | 2025-02-22 2200
+E | 0 | Hang out w my gf | 2025-02-21 1600 | 2025-02-21 1900
+T | 0 | Buy groceries
+D | 0 | Homework | 2025-02-23 2359
