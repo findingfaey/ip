@@ -1,5 +1,9 @@
 package arin.ui;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import arin.*;
 import arin.command.*;
 import arin.task.Deadline;
@@ -24,6 +28,9 @@ public class Parser {
 
         switch (commandType) {
         case "todo":
+            if (commandParts.length < 2 || commandParts[1].trim().isEmpty()) {
+                throw new ArinException("Invalid todo format! Use: todo <task description>");
+            }
             return new AddTaskCommand(new ToDo(commandParts[1]));
         case "deadline":
             return parseDeadlineCommand(commandParts);
@@ -58,19 +65,20 @@ public class Parser {
             throw new ArinException("Invalid deadline format! Use: deadline <task> /by yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
 
-        String[] deadlineParts = commandParts[1].split(" /by ", 2);
-        if (deadlineParts.length < 2 || deadlineParts[1].trim().split(" ").length < 2) {
-            throw new ArinException("Invalid deadline format! Ensure you provide both date and time. Use: deadline <task> /by yyyy-MM-dd HHmm");
+        String[] deadlineParts = commandParts[1].split(" /by ");
+        if (deadlineParts.length < 2) {
+            throw new ArinException("Invalid deadline format! Use: deadline <task> /by yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
 
+        // Ensure the date follows the expected format
         try {
-            return new AddTaskCommand(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ArinException("Failed to add deadline: " + e.getMessage());
+            LocalDateTime.parse(deadlineParts[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        } catch (DateTimeParseException e) {
+            throw new ArinException("Invalid date format! Use: yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
-    }
 
+        return new AddTaskCommand(new Deadline(deadlineParts[0], deadlineParts[1]));
+    }
     /**
      * Parses the "event" command and returns an AddTaskCommand.
      *
