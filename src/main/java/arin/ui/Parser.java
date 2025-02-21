@@ -15,6 +15,9 @@ import arin.task.ToDo;
  */
 public class Parser {
 
+    private static final String DEADLINE_DELIMITER = " /by ";
+    private static final String EVENT_DELIMITER = " /from | /to ";
+
     /**
      * Parses a user input command and returns the corresponding Command object.
      *
@@ -65,12 +68,11 @@ public class Parser {
             throw new ArinException("Invalid deadline format! Use: deadline <task> /by yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
 
-        String[] deadlineParts = commandParts[1].split(" /by ");
+        String[] deadlineParts = commandParts[1].split(DEADLINE_DELIMITER);
         if (deadlineParts.length < 2) {
             throw new ArinException("Invalid deadline format! Use: deadline <task> /by yyyy-MM-dd HHmm (e.g., '2025-02-21 2359')");
         }
 
-        // Ensure the date follows the expected format
         try {
             LocalDateTime.parse(deadlineParts[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
         } catch (DateTimeParseException e) {
