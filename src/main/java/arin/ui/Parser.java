@@ -48,12 +48,41 @@ public class Parser {
         case "list":
             return new ListTasksCommand();
         case "find":
+            if (commandParts.length < 2 || commandParts[1].trim().isEmpty()) {
+                throw new ArinException("Invalid find format! Use: find <keyword>");
+            }
             return new FindCommand(commandParts[1]);
+        case "upcoming":
+            return parseUpcomingCommand(commandParts);
         case "bye":
             return new ExitCommand();
         default:
             throw new ArinException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
+    }
+
+    /**
+     * Parses the "upcoming" command and returns a FindUpcomingCommand.
+     *
+     * @param commandParts The parts of the command split by spaces.
+     * @return A FindUpcomingCommand for upcoming tasks.
+     * @throws ArinException If the command format is incorrect.
+     */
+    private static Command parseUpcomingCommand(String[] commandParts) throws ArinException {
+        int days = 7; // Default to 7 days if not specified
+
+        if (commandParts.length > 1) {
+            try {
+                days = Integer.parseInt(commandParts[1].trim());
+                if (days <= 0) {
+                    throw new ArinException("Days must be a positive number.");
+                }
+            } catch (NumberFormatException e) {
+                throw new ArinException("Invalid format! Use: upcoming [days]");
+            }
+        }
+
+        return new FindUpcomingCommand(days);
     }
 
     /**
@@ -81,6 +110,7 @@ public class Parser {
 
         return new AddTaskCommand(new Deadline(deadlineParts[0], deadlineParts[1]));
     }
+
     /**
      * Parses the "event" command and returns an AddTaskCommand.
      *
