@@ -1,4 +1,0 @@
-D | 0 | buy flowers | 2025-02-22 2200
-E | 0 | Hang out w my gf | 2025-02-21 1600 | 2025-02-21 1900
-T | 0 | Buy groceries
-D | 0 | Homework | 2025-02-23 2359
