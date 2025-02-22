@@ -317,4 +317,26 @@ public class TaskList {
         return tasks.stream()
                 .collect(Collectors.groupingBy(Task::isDone));
     }
+
+    /**
+     * Sorts tasks by their type (ToDo, Deadline, Event).
+     *
+     * @return A list of tasks sorted by type.
+     */
+    public List<Task> getSortedByType() {
+        return tasks.stream()
+                .sorted((t1, t2) -> t1.taskType.compareTo(t2.taskType))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Sorts tasks by their completion status (incomplete first, then completed).
+     *
+     * @return A list of tasks sorted by completion status.
+     */
+    public List<Task> getSortedByStatus() {
+        return tasks.stream()
+                .sorted(Comparator.comparing(Task::isDone))
+                .collect(Collectors.toList());
+    }
 }

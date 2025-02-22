@@ -19,7 +19,7 @@ public class Ui {
     private String latestResponse = "";
 
     /**
-     * Creates a Ui object for handling user input and output.
+     * Creates an Ui object for handling user input and output.
      *
      * @param taskList The task list to operate on.
      * @param storage  The storage system.
@@ -170,19 +170,6 @@ public class Ui {
     }
 
     /**
-     * Displays a task to the user.
-     *
-     * @param task The task to be displayed.
-     */
-    public void showTask(Task task) {
-        String message = task.toString();
-        if (!isGuiMode) {
-            System.out.println(message);
-        }
-        latestResponse = message;
-    }
-
-    /**
      * Displays a message indicating a task has been marked as not done.
      *
      * @param task The task that was marked as not done.
@@ -230,4 +217,62 @@ public class Ui {
 
         latestResponse = message;
     }
+
+    /**
+     * Displays the list of sorted tasks.
+     *
+     * @param tasks The sorted list of tasks to show.
+     * @param sortCriterion The criterion used for sorting.
+     */
+    public void showSortedTaskList(List<Task> tasks, String sortCriterion) {
+        StringBuilder messageBuilder = new StringBuilder();
+
+        if (tasks.isEmpty()) {
+            messageBuilder.append("No tasks to display!");
+        } else {
+            String sortByText;
+            switch (sortCriterion) {
+            case "date":
+                sortByText = "date (chronologically)";
+                break;
+            case "name":
+                sortByText = "description (alphabetically)";
+                break;
+            case "type":
+                sortByText = "task type";
+                break;
+            case "status":
+                sortByText = "completion status";
+                break;
+            default:
+                sortByText = sortCriterion;
+            }
+
+            messageBuilder.append("Here are your tasks sorted by ").append(sortByText).append(":\n");
+            for (int i = 0; i < tasks.size(); i++) {
+                messageBuilder.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
+            }
+        }
+
+        String message = messageBuilder.toString().trim();
+        if (!isGuiMode) {
+            System.out.println(message);
+        }
+
+        latestResponse = message;
+    }
+
+    /**
+     * Displays the help message showing available commands.
+     *
+     * @param helpMessage The help message to display.
+     */
+    public void showHelp(String helpMessage) {
+        String message = "📖 Command Guide\n\n" + helpMessage;
+        if (!isGuiMode) {
+            System.out.println(message);
+        }
+        latestResponse = message;
+    }
+
 }

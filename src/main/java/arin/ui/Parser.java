@@ -16,7 +16,6 @@ import arin.task.ToDo;
 public class Parser {
 
     private static final String DEADLINE_DELIMITER = " /by ";
-    private static final String EVENT_DELIMITER = " /from | /to ";
 
     /**
      * Parses a user input command and returns the corresponding Command object.
@@ -54,6 +53,10 @@ public class Parser {
             return new FindCommand(commandParts[1]);
         case "upcoming":
             return parseUpcomingCommand(commandParts);
+        case "sort":
+            return parseSortCommand(commandParts);
+        case "help":
+            return new HelpCommand();
         case "bye":
             return new ExitCommand();
         default:
@@ -139,4 +142,35 @@ public class Parser {
 
         return new AddTaskCommand(new Event(description, from, to));
     }
+
+    /**
+     * Parses the "sort" command and returns a SortCommand.
+     *
+     * @param commandParts The parts of the command split by spaces.
+     * @return A SortCommand with the specified sorting criterion.
+     * @throws ArinException If the command format is incorrect.
+     */
+    private static Command parseSortCommand(String[] commandParts) throws ArinException {
+        if (commandParts.length < 2) {
+            throw new ArinException("Invalid sort format! Use: sort by [date|name|type|status]");
+        }
+
+        String[] sortParts = commandParts[1].split(" ", 2);
+        if (sortParts.length < 2 || !sortParts[0].equalsIgnoreCase("by")) {
+            throw new ArinException("Invalid sort format! Use: sort by [date|name|type|status]");
+        }
+
+        String criterion = sortParts[1].trim().toLowerCase();
+
+        // Verify criterion is valid
+        if (!criterion.equals(SortCommand.SORT_BY_DATE) &&
+                !criterion.equals(SortCommand.SORT_BY_NAME) &&
+                !criterion.equals(SortCommand.SORT_BY_TYPE) &&
+                !criterion.equals(SortCommand.SORT_BY_STATUS)) {
+            throw new ArinException("Invalid sort criterion! Use: date, name, type, or status");
+        }
+
+        return new SortCommand(criterion);
+    }
+
 }
