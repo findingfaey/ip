@@ -188,28 +188,60 @@ public class TaskList {
     }
 
     /**
-     * Sorts tasks by their deadline (for Deadline tasks).
-     * Non-deadline tasks will appear at the end of the list.
+     * Sorts tasks by their deadline (for Deadline tasks) and event start time (for Event tasks).
+     * Tasks are sorted chronologically, with ToDo tasks appearing at the end.
      *
-     * @return A sorted list with deadline tasks ordered by due date.
+     * @return A sorted list with tasks ordered by date/time.
      */
     public List<Task> getSortedByDeadline() {
-        // First collect deadline tasks
-        List<Deadline> deadlines = tasks.stream()
+        // First, create a list for todos (which have no date)
+        List<Task> todos = tasks.stream()
+                .filter(task -> task.taskType == TaskType.TODO)
+                .collect(Collectors.toList());
+
+        // Create a list for tasks with dates (deadlines and events)
+        List<Task> tasksWithDates = new ArrayList<>();
+
+        // Add all deadlines with their dates
+        tasks.stream()
                 .filter(task -> task.taskType == TaskType.DEADLINE)
-                .map(task -> (Deadline) task)
-                .sorted(Comparator.comparing(Deadline::getBy))
-                .collect(Collectors.toList());
+                .forEach(task -> tasksWithDates.add(task));
 
-        // Then collect non-deadline tasks
-        List<Task> nonDeadlines = tasks.stream()
-                .filter(task -> task.taskType != TaskType.DEADLINE)
-                .collect(Collectors.toList());
+        // Add all events with their dates
+        tasks.stream()
+                .filter(task -> task.taskType == TaskType.EVENT)
+                .forEach(task -> tasksWithDates.add(task));
 
-        // Combine both lists
-        List<Task> result = new ArrayList<>(deadlines);
-        result.addAll(nonDeadlines);
+        // Sort the tasks with dates chronologically
+        tasksWithDates.sort((task1, task2) -> {
+            LocalDateTime date1 = getTaskDateTime(task1);
+            LocalDateTime date2 = getTaskDateTime(task2);
+            return date1.compareTo(date2);
+        });
+
+        // Combine all tasks: first those with dates, then todos
+        List<Task> result = new ArrayList<>(tasksWithDates);
+        result.addAll(todos);
         return result;
+    }
+
+    /**
+     * Helper method to get the relevant date/time from a task.
+     * For Deadline tasks, returns the due date.
+     * For Event tasks, returns the start time.
+     *
+     * @param task The task to get the date/time from.
+     * @return The relevant LocalDateTime for the task.
+     */
+    private LocalDateTime getTaskDateTime(Task task) {
+        if (task.taskType == TaskType.DEADLINE) {
+            return ((Deadline) task).getBy();
+        } else if (task.taskType == TaskType.EVENT) {
+            return ((Event) task).getFrom();
+        } else {
+            // Shouldn't reach here since we filter tasks before calling this method
+            return LocalDateTime.MAX; // Default to far future
+        }
     }
 
     /**
@@ -232,10 +264,10 @@ public class TaskList {
     }
 
     /**
-     * Gets tasks containing all of the given keywords.
+     * Gets tasks containing all the given keywords.
      *
      * @param keywords An array of keywords to search for.
-     * @return A list of tasks matching all of the keywords.
+     * @return A list of tasks matching all the keywords.
      */
     public List<Task> findTasksWithAllKeywords(String... keywords) {
         assert keywords != null && keywords.length > 0 : "At least one keyword must be provided";
