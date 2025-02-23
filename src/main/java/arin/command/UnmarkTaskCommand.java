@@ -33,7 +33,7 @@ public class UnmarkTaskCommand implements Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws ArinException {
         // Convert from 1-based user index to 0-based internal index
-        int internalIndex = taskIndex - 1;
+        int internalIndex = taskIndex - 1;  // Bug fix: Subtract 1 to convert from user index to internal index
 
         if (internalIndex < 0 || internalIndex >= taskList.getTasks().size()) {
             throw new ArinException("Invalid task index. Please provide a number between 1 and "
