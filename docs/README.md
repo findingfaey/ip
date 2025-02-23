@@ -31,6 +31,10 @@
     <td><img src="../src/main/resources/images/add-todo.png" width="400" alt="Adding a todo task"><br><em>Adding a todo task</em></td>
     <td><img src="../src/main/resources/images/add-deadline.png" width="400" alt="Adding a deadline task"><br><em>Adding a deadline task</em></td>
   </tr>
+  <tr>
+    <td><img src="../src/main/resources/images/add-event.png" width="400" alt="Adding an event"><br><em>Adding an event</em></td>
+    <td><img src="../src/main/resources/images/list-tasks.png" width="400" alt="Viewing all tasks"><br><em>List of all tasks</em></td>
+  </tr>
 </table>
 </details>
 
@@ -93,6 +97,10 @@ upcoming [days]  - Shows tasks due within specified days (default: 7 days)
   <tr>
     <td><img src="../src/main/resources/images/sort-date.png" width="400" alt="Sorting by date"><br><em>Sorting by date</em></td>
     <td><img src="../src/main/resources/images/sort-name.png" width="400" alt="Sorting by name"><br><em>Sorting by name</em></td>
+  </tr>
+  <tr>
+    <td><img src="../src/main/resources/images/sort-type.png" width="400" alt="Sorting by type"><br><em>Sorting by type</em></td>
+    <td><img src="../src/main/resources/images/sort-status.png" width="400" alt="Sorting by status"><br><em>Sorting by status</em></td>
   </tr>
 </table>
 </details>
