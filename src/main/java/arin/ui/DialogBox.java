@@ -121,27 +121,4 @@ public class DialogBox extends HBox {
         db.dialog.getStyleClass().add("error-message");
         return db;
     }
-
-    /**
-     * Applies command-specific styling to the dialog box.
-     *
-     * @param commandType The type of command to style for.
-     */
-    public void applyCommandStyle(String commandType) {
-        if (commandType != null) {
-            switch (commandType) {
-            case "AddTaskCommand":
-                dialog.getStyleClass().add("add-label");
-                break;
-            case "MarkTaskCommand":
-                dialog.getStyleClass().add("marked-label");
-                break;
-            case "DeleteTaskCommand":
-                dialog.getStyleClass().add("delete-label");
-                break;
-            default:
-                break;
-            }
-        }
-    }
 }

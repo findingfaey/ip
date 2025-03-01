@@ -8,7 +8,7 @@
 }
 
 .reply-label {
-    -fx-background-color: #00cf91;
+    -fx-background-color: #708238; /* Changed from #00cf91 to a more muted teal */
 }
 
 .error-message {
@@ -21,4 +21,3 @@
     -fx-border-radius: 50%;
     -fx-background-color: transparent;
 }
-
