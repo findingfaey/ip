@@ -111,28 +111,6 @@ public class TaskList {
     }
 
     /**
-     * Gets all completed tasks.
-     *
-     * @return A list of completed tasks.
-     */
-    public List<Task> getCompletedTasks() {
-        return tasks.stream()
-                .filter(Task::isDone)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets all incomplete tasks.
-     *
-     * @return A list of incomplete tasks.
-     */
-    public List<Task> getIncompleteTasks() {
-        return tasks.stream()
-                .filter(task -> !task.isDone())
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Gets all tasks of a specific type.
      *
      * @param taskType The type of task to filter by.
@@ -143,21 +121,6 @@ public class TaskList {
 
         return tasks.stream()
                 .filter(task -> task.taskType == taskType)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets all upcoming deadline tasks (for future dates).
-     *
-     * @return A list of upcoming deadline tasks.
-     */
-    public List<Task> getUpcomingDeadlines() {
-        LocalDateTime now = LocalDateTime.now();
-
-        return tasks.stream()
-                .filter(task -> task.taskType == TaskType.DEADLINE)
-                .map(task -> (Deadline) task)
-                .filter(deadline -> deadline.getBy().isAfter(now))
                 .collect(Collectors.toList());
     }
 
@@ -245,69 +208,6 @@ public class TaskList {
     }
 
     /**
-     * Gets tasks containing any of the given keywords.
-     *
-     * @param keywords An array of keywords to search for.
-     * @return A list of tasks matching any of the keywords.
-     */
-    public List<Task> findTasksWithAnyKeyword(String... keywords) {
-        assert keywords != null && keywords.length > 0 : "At least one keyword must be provided";
-
-        return tasks.stream()
-                .filter(task -> {
-                    String description = task.getDescription().toLowerCase();
-                    return java.util.Arrays.stream(keywords)
-                            .map(String::toLowerCase)
-                            .anyMatch(description::contains);
-                })
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets tasks containing all the given keywords.
-     *
-     * @param keywords An array of keywords to search for.
-     * @return A list of tasks matching all the keywords.
-     */
-    public List<Task> findTasksWithAllKeywords(String... keywords) {
-        assert keywords != null && keywords.length > 0 : "At least one keyword must be provided";
-
-        return tasks.stream()
-                .filter(task -> {
-                    String description = task.getDescription().toLowerCase();
-                    return java.util.Arrays.stream(keywords)
-                            .map(String::toLowerCase)
-                            .allMatch(description::contains);
-                })
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets the count of each type of task.
-     *
-     * @return An array of counts [todoCount, deadlineCount, eventCount].
-     */
-    public int[] getTaskTypeCounts() {
-        return new int[] {
-                (int) tasks.stream().filter(task -> task.taskType == TaskType.TODO).count(),
-                (int) tasks.stream().filter(task -> task.taskType == TaskType.DEADLINE).count(),
-                (int) tasks.stream().filter(task -> task.taskType == TaskType.EVENT).count()
-        };
-    }
-
-    /**
-     * Gets the count of tasks with a specific status.
-     *
-     * @param isDone True to count completed tasks, false for incomplete tasks.
-     * @return The count of tasks with the specified status.
-     */
-    public int getTaskCountByStatus(boolean isDone) {
-        return (int) tasks.stream()
-                .filter(task -> task.isDone() == isDone)
-                .count();
-    }
-
-    /**
      * Gets tasks due within the specified number of days.
      *
      * @param days Number of days from now.
@@ -328,26 +228,6 @@ public class TaskList {
                 })
                 .map(deadline -> (Task) deadline)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets tasks grouped by their type.
-     *
-     * @return A map of TaskType to list of tasks of that type.
-     */
-    public java.util.Map<TaskType, List<Task>> getTasksGroupedByType() {
-        return tasks.stream()
-                .collect(Collectors.groupingBy(task -> task.taskType));
-    }
-
-    /**
-     * Gets a summary of tasks by status (completed vs. incomplete).
-     *
-     * @return A map with true->completed tasks and false->incomplete tasks.
-     */
-    public java.util.Map<Boolean, List<Task>> getTasksGroupedByStatus() {
-        return tasks.stream()
-                .collect(Collectors.groupingBy(Task::isDone));
     }
 
     /**

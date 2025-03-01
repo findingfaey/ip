@@ -14,7 +14,7 @@
 }
 
 .button {
-    -fx-background-color: #708238; /* Changed from #00cf91 to match reply bubbles */
+    -fx-background-color: #708238; /* match reply bubbles */
     -fx-background-radius: 50%;
     -fx-min-width: 40px;
     -fx-min-height: 40px;
@@ -36,9 +36,8 @@
     -fx-background-color: transparent;
 }
 
-/* Top bar style - changed to a lighter color for better contrast with the "A" logo */
 .top-bar {
-    -fx-background-color: #383838; /* Lighter than before for better contrast */
+    -fx-background-color: #383838;
     -fx-padding: 10px;
     -fx-alignment: center;
 }
