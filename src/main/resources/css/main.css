@@ -1,16 +1,34 @@
+/* In main.css - add this at the top */
 .root {
+    -fx-font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    -fx-font-size: 13px;
     -fx-background-color: #1a1a1a;
 }
 
 .text-field {
-    -fx-background-color: #333333;
+    -fx-font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    -fx-font-size: 14px;
     -fx-text-fill: white;
-    -fx-font: 14px "System";
     -fx-prompt-text-fill: #888888;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-padding: 10px 15px;
     -fx-border-width: 0;
+    -fx-background-color: #333333;
+}
+
+/* Add this to improve message readability */
+.label {
+    -fx-font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* Make app title more elegant */
+.app-title {
+    -fx-font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+    -fx-font-weight: 300; /* Light weight for elegance */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
 
 .button {
@@ -40,9 +58,4 @@
     -fx-background-color: #383838;
     -fx-padding: 10px;
     -fx-alignment: center;
-}
-
-.app-title {
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
 }
